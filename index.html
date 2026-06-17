@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Clips Hub</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<header class="hero">
+
+<h1>⚽ Football Clips Hub</h1>
+
+<p>
+Goals • Skills • Goalkeepers • Funny Moments • Shorts
+</p>
+
+</header>
+
+<!-- ADMIN PANEL -->
+
+<div id="adminPanel" class="adminPanel">
+
+<button class="adminBtn" onclick="openAddModal()">
+➕ Add New Clip
+</button>
+
+</div>
+
+<!-- SEARCH -->
+
+<section class="topBar">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search clips..."
+>
+
+<select id="categoryFilter">
+
+<option value="All">All Categories</option>
+
+<option value="Goals">Goals</option>
+
+<option value="Skills">Skills</option>
+
+<option value="Goalkeepers">Goalkeepers</option>
+
+<option value="Funny">Funny Moments</option>
+
+<option value="Matches">Matches</option>
+
+<option value="Shorts">Shorts</option>
+
+</select>
+
+<button onclick="toggleTheme()">
+🌙 Theme
+</button>
+
+</section>
+
+<!-- STATS -->
+
+<section class="statsBox">
+
+<div>
+📹 Clips:
+<span id="clipCount">0</span>
+</div>
+
+<div>
+❤️ Favorites:
+<span id="favoriteCount">0</span>
+</div>
+
+<div>
+👁 Views:
+<span id="viewCount">0</span>
+</div>
+
+</section>
+
+<!-- CONTINUE WATCHING -->
+
+<section id="continueWatching"></section>
+
+<!-- CLIPS -->
+
+<section id="clipContainer"></section>
+
+<!-- ADD CLIP MODAL -->
+
+<div id="addModal" class="modal">
+
+<div class="modalContent">
+
+<span class="closeBtn"
+onclick="closeAddModal()">
+×
+</span>
+
+<h2>Add New Clip</h2>
+
+<input
+id="titleInput"
+placeholder="Clip Title">
+
+<select id="categoryInput">
+
+<option value="Goals">Goals</option>
+
+<option value="Skills">Skills</option>
+
+<option value="Goalkeepers">Goalkeepers</option>
+
+<option value="Funny">Funny Moments</option>
+
+<option value="Matches">Matches</option>
+
+<option value="Shorts">Shorts</option>
+
+</select>
+
+<input
+id="videoInput"
+placeholder="YouTube or MP4 URL">
+
+<input
+id="thumbInput"
+placeholder="Thumbnail URL">
+
+<textarea
+id="descInput"
+placeholder="Description"></textarea>
+
+<button
+class="saveBtn"
+onclick="addClip()">
+
+Save Clip
+
+</button>
+
+</div>
+
+</div>
+
+<script src="data.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>
