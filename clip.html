@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Watch Clip</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<header class="hero">
+
+<h1>⚽ Football Clips Hub</h1>
+
+<p>Watch Football Videos</p>
+
+</header>
+
+<div class="playerBox">
+
+<div id="videoContainer"></div>
+
+<h2 id="clipTitle" class="clipTitle"></h2>
+
+<p id="clipDesc" class="clipDesc"></p>
+
+<h3 style="margin-top:30px;">
+Related Clips
+</h3>
+
+<div
+id="relatedContainer"
+class="relatedGrid">
+</div>
+
+</div>
+
+<script src="data.js"></script>
+
+<script>
+
+/* =========================
+GET ID
+========================= */
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const clipId =
+Number(params.get("id"));
+
+const clips =
+getClips();
+
+const clip =
+clips.find(
+c => c.id === clipId
+);
+
+/* =========================
+LOAD CLIP
+========================= */
+
+if(clip){
+
+document.getElementById(
+"clipTitle"
+).innerText =
+clip.title;
+
+document.getElementById(
+"clipDesc"
+).innerText =
+clip.description;
+
+/* =========================
+SAVE LAST WATCHED
+========================= */
+
+saveLastWatched(clip);
+
+/* =========================
+INCREASE VIEWS
+========================= */
+
+let views =
+getViews();
+
+views++;
+
+saveViews(views);
+
+/* =========================
+VIDEO PLAYER
+========================= */
+
+const container =
+document.getElementById(
+"videoContainer"
+);
+
+if(
+clip.video.includes("youtube.com")
+||
+clip.video.includes("youtu.be")
+){
+
+let id = "";
+
+/* youtu.be */
+
+if(
+clip.video.includes("youtu.be/")
+){
+
+id =
+clip.video
+.split("youtu.be/")[1]
+.split("?")[0];
+
+}
+
+/* watch?v= */
+
+else if(
+clip.video.includes("watch?v=")
+){
+
+id =
+clip.video
+.split("watch?v=")[1]
+.split("&")[0];
+
+}
+
+/* embed */
+
+else if(
+clip.video.includes("/embed/")
+){
+
+id =
+clip.video
+.split("/embed/")[1]
+.split("?")[0];
+
+}
+
+container.innerHTML = `
+
+<iframe
+class="videoFrame"
+src="https://www.youtube.com/embed/${id}"
+allowfullscreen>
+</iframe>
+
+`;
+
+}
+
+/* =========================
+MP4 PLAYER
+========================= */
+
+else{
+
+container.innerHTML = `
+
+<video
+class="videoFrame"
+controls>
+
+<source
+src="${clip.video}"
+type="video/mp4">
+
+</video>
+
+`;
+
+}
+
+/* =========================
+RELATED CLIPS
+========================= */
+
+const related =
+clips.filter(
+c =>
+c.category === clip.category
+&&
+c.id !== clip.id
+);
+
+const relatedBox =
+document.getElementById(
+"relatedContainer"
+);
+
+related.forEach(item => {
+
+relatedBox.innerHTML += `
+
+<div class="card">
+
+<img
+src="${item.thumb}"
+class="thumb">
+
+<div class="cardBody">
+
+<h3>
+${item.title}
+</h3>
+
+<a
+class="watchBtn"
+href="clip.html?id=${item.id}">
+
+▶ Watch
+
+</a>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* =========================
+NOT FOUND
+========================= */
+
+else{
+
+document.body.innerHTML = `
+
+<h1
+style="
+text-align:center;
+margin-top:100px;
+">
+
+Clip Not Found
+
+</h1>
+
+`;
+
+}
+
+</script>
+
+</body>
+</html>
