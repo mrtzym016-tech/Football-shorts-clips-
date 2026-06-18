@@ -43,10 +43,6 @@ class="relatedGrid">
 
 <script>
 
-/* =========================
-GET ID
-========================= */
-
 const params =
 new URLSearchParams(
 window.location.search
@@ -63,10 +59,6 @@ clips.find(
 c => c.id === clipId
 );
 
-/* =========================
-LOAD CLIP
-========================= */
-
 if(clip){
 
 document.getElementById(
@@ -79,15 +71,7 @@ document.getElementById(
 ).innerText =
 clip.description;
 
-/* =========================
-SAVE LAST WATCHED
-========================= */
-
 saveLastWatched(clip);
-
-/* =========================
-INCREASE VIEWS
-========================= */
 
 let views =
 getViews();
@@ -96,39 +80,28 @@ views++;
 
 saveViews(views);
 
-/* =========================
-VIDEO PLAYER
-========================= */
-
 const container =
 document.getElementById(
 "videoContainer"
 );
 
+/* =========================
+YOUTUBE SUPPORT
+watch?v=
+youtu.be
+shorts
+embed
+========================= */
+
 if(
-clip.video.includes("youtube.com")
+clip.video.includes("youtube")
 ||
 clip.video.includes("youtu.be")
 ){
 
 let id = "";
 
-/* youtu.be */
-
 if(
-clip.video.includes("youtu.be/")
-){
-
-id =
-clip.video
-.split("youtu.be/")[1]
-.split("?")[0];
-
-}
-
-/* watch?v= */
-
-else if(
 clip.video.includes("watch?v=")
 ){
 
@@ -139,7 +112,27 @@ clip.video
 
 }
 
-/* embed */
+else if(
+clip.video.includes("youtu.be/")
+){
+
+id =
+clip.video
+.split("youtu.be/")[1]
+.split("?")[0];
+
+}
+
+else if(
+clip.video.includes("/shorts/")
+){
+
+id =
+clip.video
+.split("/shorts/")[1]
+.split("?")[0];
+
+}
 
 else if(
 clip.video.includes("/embed/")
@@ -156,8 +149,12 @@ container.innerHTML = `
 
 <iframe
 class="videoFrame"
-src="https://www.youtube.com/embed/${id}"
+src="https://www.youtube.com/embed/${id}?rel=0"
+title="YouTube video player"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen>
+
 </iframe>
 
 `;
@@ -165,7 +162,7 @@ allowfullscreen>
 }
 
 /* =========================
-MP4 PLAYER
+MP4
 ========================= */
 
 else{
@@ -174,7 +171,8 @@ container.innerHTML = `
 
 <video
 class="videoFrame"
-controls>
+controls
+playsinline>
 
 <source
 src="${clip.video}"
@@ -187,7 +185,7 @@ type="video/mp4">
 }
 
 /* =========================
-RELATED CLIPS
+RELATED
 ========================= */
 
 const related =
@@ -236,10 +234,6 @@ href="clip.html?id=${item.id}">
 });
 
 }
-
-/* =========================
-NOT FOUND
-========================= */
 
 else{
 
